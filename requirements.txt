@@ -1,0 +1,11 @@
+streamlit
+datetime
+python-dateutil
+os
+numpy
+pandas
+keras
+matplotlib
+scikit-learn
+plotly
+streamlit-option-menu
