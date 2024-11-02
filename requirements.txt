@@ -1,14 +1,8 @@
-keras==2.13.1
-keras==3.6.0
-matplotlib==3.7.2
-matplotlib==3.5.2
-matplotlib==3.6.2
-numpy==1.21.5
-numpy==1.23.4
-numpy==1.24.3
+keras==2.13.1  # or keras==3.6.0, choose one version
+matplotlib==3.7.2  # or choose one version from the others
+numpy==1.24.3  # or choose one version from the others
 pandas==1.4.4
-plotly==5.9.0
-plotly==5.18.0
+plotly==5.18.0  # or choose one version from the others
 python_dateutil==2.8.2
 scikit_learn==1.0.2
 streamlit==1.36.0
