@@ -4,3 +4,6 @@ plotly
 keras
 tensorflow
 pandas
+xlrd
+openpyxl
+numpy
