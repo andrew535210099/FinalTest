@@ -1,4 +1,3 @@
-# prediction.py
 from datetime import datetime
 import streamlit as st
 import os
@@ -6,31 +5,32 @@ import pandas as pd
 import plotly.graph_objects as go
 
 def app():
-    st.title("🌤️ Metrics Evaluation")
-    st.write("This section displays the weather predictions using SVR and LSTM techniques.")
+    st.title("🌤️ Evaluasi Prediksi Cuaca")
+    st.write("Selamat datang di halaman evaluasi prediksi cuaca! Di sini, Anda bisa melihat performa model prediksi cuaca menggunakan metode SVR dan LSTM. Pilih kota dan model untuk memulai.")
 
-    # Define the model directory
+    # Tentukan direktori model
     model_directory = os.path.join(os.getcwd(), "data")
 
-    # List all directories (cities) in the model_directory
+    # Menampilkan daftar kota dalam direktori model
     cities = [d for d in os.listdir(model_directory) if os.path.isdir(os.path.join(model_directory, d))]
     
-    # Dropdown for city selection
-    selected_city = st.selectbox("Select City", cities)
+    # Dropdown untuk memilih kota
+    selected_city = st.selectbox("Pilih Kota", cities)
     
-    # Dropdown for model selection
+    # Dropdown untuk memilih model
     model_options = ["LSTM", "SVR"]
-    selected_model = st.selectbox("Select Model", model_options)
+    selected_model = st.selectbox("Pilih Model Prediksi", model_options)
 
-    if st.button("Load Metrics"):
-        with st.spinner('Loading metrics...'):
-            historical_data = get_metrix_evaluation(selected_city, selected_model)
-        
-        if historical_data:
-            # Only plot if there is data
-            plot_all_predictions(historical_data)
-            
-    # Footer
+    with st.container():
+        if st.button("Tampilkan Evaluasi"):
+            historical_data, filenames = get_metrix_evaluation(selected_city, selected_model)
+            # Tampilkan plot jika data berhasil dimuat
+            if historical_data:
+                plot_all_predictions(historical_data, filenames)
+            else:
+                st.warning("Tidak ada data tersedia untuk ditampilkan. Pastikan Anda telah memilih kota dan model yang benar.")
+
+    # Gaya footer dan tampilan tambahan
     st.markdown(
     """
     <style>
@@ -53,89 +53,95 @@ def app():
 
     .custom-background {
         background-color: #1e1e1e;  /* Warna latar belakang untuk elemen tertentu */
-        border-radius: 5px;  /* Sudut melengkung */
+        border-radius: 5px;  /* Sudut yang membulat */
         padding: 10px;  /* Padding */
-        box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2);  /* Bayangan */
+        box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2);  /* Efek bayangan */
     }
     </style>
     """,
     unsafe_allow_html=True
     )
 
-    # Contoh penggunaan custom background
-    # st.markdown('<div class="custom-background">Your content here</div>', unsafe_allow_html=True)
-
     # Footer
-    st.markdown("<div class='footer'>© 2024 Weather Prediction. All rights reserved.</div>", unsafe_allow_html=True)
+    st.markdown("<div class='footer'>© 2024 Prediksi Cuaca. Semua hak cipta dilindungi.</div>", unsafe_allow_html=True)
 
 def get_metrix_evaluation(selected_city, selected_model):
-    # Define the path to the testing predictions directory
+    # Tentukan path ke direktori metrik pengujian
     model_directory = os.path.join(os.path.join(os.path.join(os.getcwd(), "data"), selected_city), selected_model + "_Metrics")
     
-    # Print the contents of the model directory for debugging
-    print("Contents of model_directory:", os.listdir(model_directory))
+    # Cetak isi dari direktori model untuk debugging
+    print("Isi dari model_directory:", os.listdir(model_directory))
     
-    # List to store loaded DataFrames
+    # Daftar untuk menyimpan DataFrame yang dimuat dan nama file
     dataframes = []
+    filenames = []
 
-    # Load each CSV file in the directory
-    for item in os.listdir(model_directory):
-        if item.endswith('.csv'):
-            file_path = os.path.join(model_directory, item)
-            # Load the CSV file into a DataFrame
-            df = pd.read_csv(file_path)
-            
-            # Ensure 'Tanggal' is a datetime object
-            df['Tanggal'] = pd.to_datetime(df['Tanggal'])
-            # Append the DataFrame to the list
-            dataframes.append(df)
+    # Gunakan spinner saat memuat data
+    with st.spinner('Sedang memuat data...'):
+        # Memuat setiap file CSV dalam direktori
+        for item in os.listdir(model_directory):
+            if item.endswith('.csv'):
+                file_path = os.path.join(model_directory, item)
+                # Memuat file CSV ke dalam DataFrame
+                df = pd.read_csv(file_path)
+                
+                # Pastikan 'Tanggal' adalah objek datetime
+                df['Tanggal'] = pd.to_datetime(df['Tanggal'])
+                # Tambahkan DataFrame dan nama file ke dalam daftar
+                dataframes.append(df)
+                filenames.append(item)  # Simpan nama file
 
     if not dataframes:
-        st.warning("No CSV files found in the selected city directory.")
-    return dataframes
+        st.warning("Tidak ada file CSV ditemukan di direktori kota yang dipilih.")
+    return dataframes, filenames  # Kembalikan dataframes dan filenames
 
-def plot_all_predictions(dataframes):
-    """Plot Actual vs Predicted values for all DataFrames."""
-    for df in dataframes:
-        plot_predictions(df)
+def plot_all_predictions(dataframes, filenames):
+    """Tampilkan Grafik Nilai Aktual vs Prediksi untuk semua DataFrame."""
+    for df, filename in zip(dataframes, filenames):
+        plot_predictions(df, filename)
 
-def plot_predictions(df):
-    """Plot Actual vs Predicted values using Plotly."""
+def plot_predictions(df, filename):
+    """Menampilkan Grafik Nilai Aktual vs Prediksi menggunakan Plotly."""
     fig = go.Figure()
 
-    # Add Actual trace
+    # Asumsi kolom pertama adalah 'Tanggal', kedua adalah 'Aktual', dan ketiga adalah 'Prediksi'
+    date_column = 'Tanggal'
+    actual_column = df.columns[1]  # Asumsi kolom kedua adalah nilai aktual
+    predicted_column = df.columns[2]  # Asumsi kolom ketiga adalah nilai prediksi
+    
+    display_name = filename.replace('.csv', '')
+
+    # Tambahkan jejak Nilai Aktual
     fig.add_trace(go.Scatter(
-        x=df['Tanggal'],
-        y=df['Actual'],
+        x=df[date_column],
+        y=df[actual_column],
         mode='lines+markers',
-        name='Actual',
+        name=f'Nilai Aktual ({actual_column})',
         line=dict(color='green'),
         marker=dict(size=5),
-        hovertemplate='Actual: %{y:.2f}<br>Tanggal: %{x}<extra></extra>'
+        hovertemplate=f'{actual_column}: %{{y:.2f}}<br>Tanggal: %{{x}}<extra></extra>'
     ))
 
-    # Add Predicted trace
+    # Tambahkan jejak Nilai Prediksi
     fig.add_trace(go.Scatter(
-        x=df['Tanggal'],
-        y=df['Predicted'],
+        x=df[date_column],
+        y=df[predicted_column],
         mode='lines+markers',
-        name='Predicted',
+        name=f'Nilai Prediksi ({predicted_column})',
         line=dict(color='red', dash='dash'),
         marker=dict(size=5),
-        hovertemplate='Predicted: %{y:.2f}<br>Tanggal: %{x}<extra></extra>'
+        hovertemplate=f'{predicted_column}: %{{y:.2f}}<br>Tanggal: %{{x}}<extra></extra>'
     ))
 
-    # Update layout
+    # Update tata letak dengan judul dan label yang dinamis
     fig.update_layout(
-        title='Actual vs Predicted Values',
+        title=f'Perbandingan Nilai Aktual vs Prediksi untuk {display_name}',
         xaxis_title='Tanggal',
-        yaxis_title='Value',
-        legend_title='Legend',
-        template='plotly_white',
+        yaxis_title=display_name,  # Set label sumbu y menggunakan nama file
+        legend_title='Legenda',
+        template='plotly_dark',  # Gunakan template dark agar lebih sesuai dengan tema
         height=400
     )
 
-    # Show the plot in Streamlit
+    # Tampilkan plot di Streamlit
     st.plotly_chart(fig, use_container_width=True)
-    
-    

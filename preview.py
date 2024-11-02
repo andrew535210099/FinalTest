@@ -1,11 +1,31 @@
-# prediction.py
-
+import os
 import streamlit as st
+from PIL import Image
 
 def app():
-    st.title("🌤️ Weather Preview Trend in Nusa Tenggara")
-    st.subheader("Selamat datang di Aplikasi Prediksi Cuaca")
+    st.title("🌤️ Tinjauan Tren Cuaca di Nusa Tenggara")
+    # st.subheader("Selamat datang di Aplikasi Prediksi Cuaca")
     
+    # Set the directory for images
+    image_directory = os.path.join(os.getcwd(), 'trendpage')
+    
+    # Check if the directory exists and get the list of image files
+    if os.path.exists(image_directory):
+        images = [f for f in os.listdir(image_directory) if f.endswith(('jpg', 'jpeg', 'png', 'gif'))]
+        
+        # Create two columns for displaying images
+        cols = st.columns(2)
+
+        # Loop through the images and display them in the columns
+        for i, image_file in enumerate(images):
+            image_path = os.path.join(image_directory, image_file)
+            img = Image.open(image_path)
+
+            # Display images in the appropriate column
+            cols[i % 2].image(img, caption=image_file, use_column_width=True)
+    else:
+        st.warning("Folder 'trendpage' tidak ditemukan. Silakan tambahkan gambar di dalam folder ini.")
+
     # Footer
     st.markdown(
     """
@@ -37,9 +57,6 @@ def app():
     """,
     unsafe_allow_html=True
     )
-
-    # Contoh penggunaan custom background
-    # st.markdown('<div class="custom-background">Your content here</div>', unsafe_allow_html=True)
 
     # Footer
     st.markdown("<div class='footer'>© 2024 Weather Prediction. All rights reserved.</div>", unsafe_allow_html=True)
