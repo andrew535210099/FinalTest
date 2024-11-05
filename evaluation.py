@@ -3,6 +3,7 @@ import streamlit as st
 import os
 import pandas as pd
 import plotly.graph_objects as go
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 def app():
     st.title("🌤️ Evaluasi Prediksi Cuaca")
@@ -35,27 +36,25 @@ def app():
     """
     <style>
     body {
-        background-color: #121212;  /* Warna latar belakang gelap */
-        color: #ffffff;  /* Warna teks putih */
+        background-color: #121212;
+        color: #ffffff;
     }
-
     .footer {
         position: fixed;
         left: 0;
         bottom: 0;
         width: 100%;
-        background-color: rgba(18, 18, 18, 0.9);  /* Warna latar belakang footer dengan transparansi */
+        background-color: rgba(18, 18, 18, 0.9);
         text-align: center;
         padding: 10px;
         font-size: 12px;
-        color: #ffffff;  /* Warna teks footer putih */
+        color: #ffffff;
     }
-
     .custom-background {
-        background-color: #1e1e1e;  /* Warna latar belakang untuk elemen tertentu */
-        border-radius: 5px;  /* Sudut yang membulat */
-        padding: 10px;  /* Padding */
-        box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2);  /* Efek bayangan */
+        background-color: #1e1e1e;
+        border-radius: 5px;
+        padding: 10px;
+        box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2);
     }
     </style>
     """,
@@ -66,34 +65,25 @@ def app():
     st.markdown("<div class='footer'>© 2024 Prediksi Cuaca. Semua hak cipta dilindungi.</div>", unsafe_allow_html=True)
 
 def get_metrix_evaluation(selected_city, selected_model):
-    # Tentukan path ke direktori metrik pengujian
     model_directory = os.path.join(os.path.join(os.path.join(os.getcwd(), "data"), selected_city), selected_model + "_Metrics")
     
-    # Cetak isi dari direktori model untuk debugging
     print("Isi dari model_directory:", os.listdir(model_directory))
     
-    # Daftar untuk menyimpan DataFrame yang dimuat dan nama file
     dataframes = []
     filenames = []
 
-    # Gunakan spinner saat memuat data
     with st.spinner('Sedang memuat data...'):
-        # Memuat setiap file CSV dalam direktori
         for item in os.listdir(model_directory):
             if item.endswith('.csv'):
                 file_path = os.path.join(model_directory, item)
-                # Memuat file CSV ke dalam DataFrame
                 df = pd.read_csv(file_path)
-                
-                # Pastikan 'Tanggal' adalah objek datetime
                 df['Tanggal'] = pd.to_datetime(df['Tanggal'])
-                # Tambahkan DataFrame dan nama file ke dalam daftar
                 dataframes.append(df)
-                filenames.append(item)  # Simpan nama file
+                filenames.append(item)
 
     if not dataframes:
         st.warning("Tidak ada file CSV ditemukan di direktori kota yang dipilih.")
-    return dataframes, filenames  # Kembalikan dataframes dan filenames
+    return dataframes, filenames
 
 def plot_all_predictions(dataframes, filenames):
     """Tampilkan Grafik Nilai Aktual vs Prediksi untuk semua DataFrame."""
@@ -104,14 +94,12 @@ def plot_predictions(df, filename):
     """Menampilkan Grafik Nilai Aktual vs Prediksi menggunakan Plotly."""
     fig = go.Figure()
 
-    # Asumsi kolom pertama adalah 'Tanggal', kedua adalah 'Aktual', dan ketiga adalah 'Prediksi'
     date_column = 'Tanggal'
-    actual_column = df.columns[1]  # Asumsi kolom kedua adalah nilai aktual
-    predicted_column = df.columns[2]  # Asumsi kolom ketiga adalah nilai prediksi
+    actual_column = df.columns[1]
+    predicted_column = df.columns[2]
     
     display_name = filename.replace('.csv', '')
 
-    # Tambahkan jejak Nilai Aktual
     fig.add_trace(go.Scatter(
         x=df[date_column],
         y=df[actual_column],
@@ -122,7 +110,6 @@ def plot_predictions(df, filename):
         hovertemplate=f'{actual_column}: %{{y:.2f}}<br>Tanggal: %{{x}}<extra></extra>'
     ))
 
-    # Tambahkan jejak Nilai Prediksi
     fig.add_trace(go.Scatter(
         x=df[date_column],
         y=df[predicted_column],
@@ -133,15 +120,26 @@ def plot_predictions(df, filename):
         hovertemplate=f'{predicted_column}: %{{y:.2f}}<br>Tanggal: %{{x}}<extra></extra>'
     ))
 
-    # Update tata letak dengan judul dan label yang dinamis
     fig.update_layout(
         title=f'Perbandingan Nilai Aktual vs Prediksi untuk {display_name}',
         xaxis_title='Tanggal',
-        yaxis_title=display_name,  # Set label sumbu y menggunakan nama file
+        yaxis_title=display_name,
         legend_title='Legenda',
-        template='plotly_dark',  # Gunakan template dark agar lebih sesuai dengan tema
+        template='plotly_dark',
         height=400
     )
 
-    # Tampilkan plot di Streamlit
     st.plotly_chart(fig, use_container_width=True)
+
+    # Calculate evaluation metrics
+    mae = mean_absolute_error(df[actual_column], df[predicted_column])
+    mse = mean_squared_error(df[actual_column], df[predicted_column])
+    rmse = mse ** 0.5
+    r2 = r2_score(df[actual_column], df[predicted_column])
+
+    # Display metrics in Streamlit
+    st.markdown(f"### Evaluasi untuk {display_name}")
+    st.write(f"**Mean Absolute Error (MAE):** {mae:.2f}")
+    st.write(f"**Mean Squared Error (MSE):** {mse:.2f}")
+    st.write(f"**Root Mean Squared Error (RMSE):** {rmse:.2f}")
+    st.write(f"**R² Score:** {r2:.2f}")
