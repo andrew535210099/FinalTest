@@ -19,29 +19,30 @@ def app():
 
     # Penjelasan Singkat
     st.markdown("""
-    Aplikasi ini didesain untuk memprediksi perubahan cuaca di berbagai kota di Nusa Tenggara. 
-    Menggunakan metode **Support Vector Regression (SVR)** dan **Long Short-Term Memory (LSTM)**, aplikasi ini mampu melakukan proyeksi meteorologi berdasarkan data cuaca selama 43 tahun yang telah dikumpulkan.
+    Aplikasi ini bertujuan untuk membantu masyarakat dan peneliti dalam memahami pola dan tren perubahan cuaca di berbagai kota di Nusa Tenggara. 
+    Memanfaatkan metode **Support Vector Regression (SVR)** dan **Long Short-Term Memory (LSTM)**, aplikasi ini menawarkan proyeksi kondisi meteorologi berdasarkan analisis data cuaca historis selama 43 tahun. 
     """)
-
-    # Manfaat Penelitian
-    st.subheader("1. Manfaat Aplikasi")
+    
+    # Manfaat dan Tujuan Aplikasi
+    st.subheader("1. Tujuan dan Manfaat Aplikasi")
     st.markdown("""
-    Aplikasi ini bermanfaat dalam meningkatkan kesadaran masyarakat tentang pentingnya pemantauan dan prediksi data meteorologi serta dampaknya terhadap kehidupan sehari-hari. 
-    Dengan hasil prediksi ini, diharapkan masyarakat di Kota Nusa Tenggara dapat lebih siap menghadapi potensi cuaca ekstrem di masa depan, sehingga dapat meminimalkan risiko dan kerugian yang mungkin timbul.
+    Aplikasi ini memiliki beberapa tujuan utama:
+    - **Memprediksi dan Mengantisipasi Cuaca Ekstrem**: Dengan memberikan informasi prediksi, aplikasi ini diharapkan membantu masyarakat dalam merencanakan aktivitas dan persiapan menghadapi potensi cuaca ekstrem.
+    - **Pendukung Riset dan Kebijakan Iklim**: Data historis dan prediksi yang dihasilkan dapat digunakan sebagai dasar ilmiah dalam penelitian perubahan iklim dan membantu pembuat kebijakan untuk merancang langkah-langkah mitigasi dan adaptasi di daerah Nusa Tenggara.
     """)
 
     # Fitur Utama
     st.subheader("2. Fitur Utama")
     st.markdown("""
-    - **Prediksi Cuaca dengan SVR dan LSTM**: Prediksi cuaca dilakukan berdasarkan parameter-parameter penting seperti temperatur, kelembapan, curah hujan, kecepatan angin, dan lainnya.
-    - **Perbandingan Metode**: Aplikasi ini juga menampilkan perbandingan hasil prediksi dari dua metode, yaitu SVR dan LSTM, untuk memberikan gambaran lebih mendalam tentang akurasi model.
-    - **Visualisasi**: Hasil prediksi disajikan dalam bentuk grafik untuk memudahkan interpretasi.
+    - **Prediksi Cuaca Berdasarkan Parameter Meteorologi**: Menggunakan SVR dan LSTM untuk memberikan prediksi yang akurat berdasarkan parameter seperti temperatur, kelembapan, curah hujan, dan kecepatan angin.
+    - **Perbandingan Metode Prediksi**: Menyediakan perbandingan antara SVR dan LSTM untuk memberikan wawasan lebih dalam mengenai akurasi prediksi.
+    - **Visualisasi Data**: Menampilkan hasil prediksi dalam grafik untuk kemudahan interpretasi dan analisis.
     """)
 
     # Data Cuaca yang Digunakan
     st.subheader("3. Dataset yang Digunakan")
     st.markdown("""
-    Dataset cuaca yang digunakan mencakup data historis dari tahun 1980 hingga 2023 dengan berbagai parameter, termasuk:
+    Dataset mencakup data cuaca historis dari tahun 1980 hingga 2023, yang terdiri dari:
     - Temperatur minimum, maksimum, dan rata-rata
     - Kelembapan rata-rata
     - Curah hujan
@@ -52,16 +53,18 @@ def app():
     # Teknologi yang Digunakan
     st.subheader("4. Teknologi yang Digunakan")
     st.markdown("""
-    - **Support Vector Regression (SVR)**: Model regresi berbasis vektor pendukung yang digunakan untuk prediksi cuaca dengan tingkat akurasi tinggi, terutama pada data yang kompleks.
-    - **Long Short-Term Memory (LSTM)**: Model jaringan saraf tiruan berbasis memori jangka panjang yang dioptimalkan untuk memproyeksikan data cuaca yang memiliki ketergantungan temporal.
-    - **Streamlit**: Framework Python yang digunakan untuk membangun aplikasi web ini.
+    - **Support Vector Regression (SVR)**: Model regresi yang mampu memberikan prediksi presisi tinggi untuk data yang kompleks.
+    - **Long Short-Term Memory (LSTM)**: Model jaringan saraf tiruan yang dioptimalkan untuk data sekuensial, cocok untuk proyeksi tren cuaca jangka panjang.
+    - **Streamlit**: Framework yang digunakan untuk membangun antarmuka web aplikasi ini, membuatnya mudah diakses dan interaktif.
     """)
 
-    # Penutup
+    # Pengguna Utama
     st.subheader("5. Siapa yang akan menggunakan aplikasi ini?")
     st.markdown("""
-    Aplikasi ini dapat digunakan oleh masyarakat umum, terutama yang tinggal di Nusa Tenggara, untuk mendapatkan informasi tentang prediksi cuaca di masa depan. 
-    Dengan menggunakan data historis, aplikasi ini membantu memberikan informasi yang lebih akurat tentang potensi cuaca ekstrem, yang berguna untuk persiapan dan mitigasi risiko.
+    Aplikasi ini dirancang untuk:
+    - **Masyarakat umum** di Nusa Tenggara yang membutuhkan informasi cuaca untuk aktivitas sehari-hari.
+    - **Peneliti dan Akademisi** yang memerlukan data prediksi cuaca sebagai bagian dari studi perubahan iklim atau riset lingkungan.
+    - **Pembuat kebijakan dan pihak terkait** yang memerlukan data cuaca dalam menyusun strategi mitigasi dan adaptasi terhadap perubahan iklim.
     """)
     
     # Footer
@@ -95,9 +98,6 @@ def app():
     """,
     unsafe_allow_html=True
     )
-
-    # Contoh penggunaan custom background
-    # st.markdown('<div class="custom-background">Your content here</div>', unsafe_allow_html=True)
 
     # Footer
     st.markdown("<div class='footer'>© 2024 Weather Prediction. All rights reserved.</div>", unsafe_allow_html=True)
