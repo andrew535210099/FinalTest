@@ -83,12 +83,12 @@ def app():
         with col1:
             start_date = st.date_input("Pilih Tanggal Mulai", value=default_start_date, min_value=default_start_date)
 
-        # Tanggal akhir satu minggu setelah tanggal mulai
-        end_date = start_date + relativedelta(days=7)
+        # Tanggal akhir maksimal 30 hari setelah tanggal mulai
+        max_end_date = start_date + relativedelta(days=30)
 
-        # Input tanggal akhir dengan batasan minimum
+        # Input tanggal akhir dengan batasan maksimum 30 hari
         with col2:
-            end_date = st.date_input("Pilih Tanggal Akhir", value=end_date, disabled=True)
+            end_date = st.date_input("Pilih Tanggal Akhir", value=start_date + relativedelta(days=7), min_value=start_date, max_value=max_end_date)
 
         # Tombol untuk memulai prediksi
         with st.container():
@@ -102,56 +102,29 @@ def app():
                     # Buat rentang tanggal yang dibutuhkan untuk prediksi
                     date_range = pd.date_range(start=start_date, end=end_date)
 
-                    # Periksa apakah rentang tanggal cukup panjang
-                    if len(date_range) < 7:
-                        st.warning("Silakan pilih rentang tanggal minimal 7 hari.")
-                    else:
-                        with st.spinner("Mengambil data historis..."):
-                            data_historis = get_historical_data(selected_city, selected_data, start_date, end_date)  # Gunakan kota yang dipilih
-                            
+                    with st.spinner("Mengambil data historis..."):
+                        data_historis = get_historical_data(selected_city, selected_data, start_date, end_date)
+                        
+                        if data_historis is not None:
+                            print(data_historis)
                             for data in selected_data:
                                 plot_predictions(data_historis, data)
+
+                            # Link untuk mengunduh data mentah
+                            csv = data_historis.to_csv(index=False).encode('utf-8')
+                            st.download_button(
+                                label="📥 Unduh Data Mentah",
+                                data=csv,
+                                file_name=f"data_mentah_{selected_city}_{start_date}_{end_date}.csv",
+                                mime='text/csv'
+                            )
+                        else:
+                            st.warning("Data tidak tersedia untuk rentang tanggal yang dipilih.")
                 else:
                     st.warning("Silakan pilih tanggal mulai dan tanggal akhir.")
     else:
         st.error("Tidak ada file model untuk kota yang dipilih.")
-        
-    # Footer
-    st.markdown(
-    """
-    <style>
-    body {
-        background-color: #121212;
-        color: #ffffff;
-    }
 
-    .footer {
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        background-color: rgba(18, 18, 18, 0.9);
-        text-align: center;
-        padding: 10px;
-        font-size: 12px;
-        color: #ffffff;
-    }
-
-    .custom-background {
-        background-color: #1e1e1e;
-        border-radius: 5px;
-        padding: 10px;
-        box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2);
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-    )
-
-    # Footer
-    st.markdown("<div class='footer'>© 2024 Prediksi Cuaca. Hak cipta dilindungi.</div>", unsafe_allow_html=True)
-
-        
 def get_historical_data(selected_city, keywords, start_date, end_date):
     """Mengambil data historis untuk kota dan model yang dipilih."""   
     # Direktori data historis kota yang dipilih
@@ -160,15 +133,11 @@ def get_historical_data(selected_city, keywords, start_date, end_date):
     # Daftar untuk menyimpan DataFrame
     dataframes = []
 
-    # Tampilkan isi direktori model untuk debugging
-    print("Isi dari model_directory:", os.listdir(model_directory))
-    
     # Iterasi setiap kata kunci (model) dalam pilihan
     for keyword in keywords:
         # Mencari file Excel yang cocok dengan keyword
         for item in os.listdir(model_directory):
             if keyword in item and item.endswith('.xls'):
-                print(f"Data cocok ditemukan untuk {keyword}") 
                 file_path = os.path.join(model_directory, item)
                 complete_data = pd.read_excel(file_path)
                 complete_data['Tanggal'] = pd.to_datetime(complete_data['Tanggal'])
@@ -179,16 +148,21 @@ def get_historical_data(selected_city, keywords, start_date, end_date):
 
                 # Filter data sesuai rentang tanggal yang dipilih
                 filtered_data = complete_data[(complete_data['Tanggal'] >= start_date) & (complete_data['Tanggal'] <= end_date)]
-                
+
+                # Tambahkan kolom nama parameter dengan modelnya (LSTM atau SVR)
+                filtered_data = filtered_data.rename(columns={
+                    'Temperatur Minimum (LSTM)': f'{keyword} (LSTM)',
+                    'Temperatur Minimum (SVR)': f'{keyword} (SVR)',
+                    # Lakukan hal yang sama untuk kolom yang relevan
+                })
+
                 # Tambahkan DataFrame yang difilter ke daftar
                 dataframes.append(filtered_data)
-                break  # Keluar setelah menemukan kecocokan pertama untuk menghindari duplikasi
 
-    # Gabungkan semua DataFrame dalam daftar
+    # Gabungkan semua DataFrame dalam daftar dan gabungkan berdasarkan 'Tanggal'
     if dataframes:
         combined_data = pd.concat(dataframes, ignore_index=True)
+        combined_data = combined_data.groupby('Tanggal', as_index=False).first()
         return combined_data  # Kembalikan data yang sudah digabungkan
     else:
-        print("Tidak ditemukan file yang cocok untuk kata kunci apa pun.")
         return None  # Kembalikan None jika tidak ada file yang ditemukan
-

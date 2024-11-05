@@ -14,7 +14,7 @@ def app():
     </style>
     """, unsafe_allow_html=True)
     
-    st.markdown('<h1 class="title">🌤️ Weather Prediction in Nusa Tenggara</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="title">🌤️ Aplikasi Prediksi Cuaca di Nusa Tenggara</h1>', unsafe_allow_html=True)
     st.subheader("Selamat datang di Aplikasi Prediksi Cuaca")
 
     # Penjelasan Singkat
