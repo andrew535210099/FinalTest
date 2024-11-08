@@ -113,9 +113,9 @@ def app():
                             # Link untuk mengunduh data mentah
                             csv = data_historis.to_csv(index=False).encode('utf-8')
                             st.download_button(
-                                label="📥 Unduh Data Mentah",
+                                label="📥 Unduh Hasil Prediksi",
                                 data=csv,
-                                file_name=f"data_mentah_{selected_city}_{start_date}_{end_date}.csv",
+                                file_name=f"data_prediksi_{selected_city}_{start_date}_{end_date}.csv",
                                 mime='text/csv'
                             )
                         else:
