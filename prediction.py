@@ -6,39 +6,54 @@ import pandas as pd
 import plotly.graph_objects as go
 
 def plot_predictions(data_historis, data_terpilih):
-    """Plot data historis dan prediksi menggunakan Plotly untuk visualisasi yang lebih menarik."""
+    """Plot data historis, prediksi LSTM, SVR, dan data aktual menggunakan Plotly untuk visualisasi yang lebih menarik."""
     
-    # Kolom untuk prediksi LSTM dan SVR
+    # Kolom untuk prediksi LSTM, SVR, dan data aktual
     kolom_lstm = f'{data_terpilih} (LSTM)'
     kolom_svr = f'{data_terpilih} (SVR)'
+    kolom_actual = f'{data_terpilih} (Actual)'
 
     fig = go.Figure()
 
+    # Menambahkan trace data aktual
+    if kolom_actual in data_historis.columns:
+        fig.add_trace(go.Scatter(
+            x=data_historis['Tanggal'],
+            y=data_historis[kolom_actual],
+            mode='lines+markers',
+            name='Actual Data',
+            line=dict(color='green', width=2),
+            marker=dict(size=8, symbol='diamond', color='green', opacity=0.7),
+            hovertemplate='Actual: %{y:.2f} mm<br>Tanggal: %{x}<extra></extra>'
+        ))
+
     # Menambahkan trace LSTM
-    fig.add_trace(go.Scatter(
-        x=data_historis['Tanggal'],
-        y=data_historis[kolom_lstm],
-        mode='lines+markers',
-        name='LSTM',
-        line=dict(color='orange', width=2),
-        marker=dict(size=8, symbol='circle', color='orange', opacity=0.6),
-        hovertemplate='LSTM: %{y:.2f} mm<br>Tanggal: %{x}<extra></extra>'
-    ))
+    if kolom_lstm in data_historis.columns:
+        fig.add_trace(go.Scatter(
+            x=data_historis['Tanggal'],
+            y=data_historis[kolom_lstm],
+            mode='lines+markers',
+            name='LSTM',
+            line=dict(color='orange', width=2),
+            marker=dict(size=8, symbol='circle', color='orange', opacity=0.6),
+            hovertemplate='LSTM: %{y:.2f} mm<br>Tanggal: %{x}<extra></extra>'
+        ))
 
     # Menambahkan trace SVR
-    fig.add_trace(go.Scatter(
-        x=data_historis['Tanggal'],
-        y=data_historis[kolom_svr],
-        mode='lines+markers',
-        name='SVR',
-        line=dict(color='blue', width=2, dash='dash'),
-        marker=dict(size=8, symbol='square', color='blue', opacity=0.6),
-        hovertemplate='SVR: %{y:.2f} mm<br>Tanggal: %{x}<extra></extra>'
-    ))
+    if kolom_svr in data_historis.columns:
+        fig.add_trace(go.Scatter(
+            x=data_historis['Tanggal'],
+            y=data_historis[kolom_svr],
+            mode='lines+markers',
+            name='SVR',
+            line=dict(color='blue', width=2, dash='dash'),
+            marker=dict(size=8, symbol='square', color='blue', opacity=0.6),
+            hovertemplate='SVR: %{y:.2f} mm<br>Tanggal: %{x}<extra></extra>'
+        ))
 
     # Update layout
     fig.update_layout(
-        title=f'Prediksi {data_terpilih} dengan LSTM dan SVR',
+        title=f'Prediksi {data_terpilih} dengan LSTM, SVR, dan Data Aktual',
         xaxis_title='Tanggal',
         yaxis_title=f'{data_terpilih} (mm)',
         legend_title='Model',
@@ -50,6 +65,7 @@ def plot_predictions(data_historis, data_terpilih):
 
     # Tampilkan grafik di Streamlit
     st.plotly_chart(fig, use_container_width=True)
+
 
 def app():
     st.title("🌤️ Prediksi Cuaca")
@@ -153,8 +169,9 @@ def get_historical_data(selected_city, keywords, start_date, end_date):
                 filtered_data = filtered_data.rename(columns={
                     'Temperatur Minimum (LSTM)': f'{keyword} (LSTM)',
                     'Temperatur Minimum (SVR)': f'{keyword} (SVR)',
-                    # Lakukan hal yang sama untuk kolom yang relevan
+                    'Temperatur Minimum (Actual)': f'{keyword} (Actual)',  # Pastikan penamaan sesuai file
                 })
+
 
                 # Tambahkan DataFrame yang difilter ke daftar
                 dataframes.append(filtered_data)

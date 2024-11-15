@@ -3,7 +3,7 @@ from streamlit_option_menu import option_menu
 import evaluation, preview, home, prediction
 
 st.set_page_config(
-    page_title="Prediksi Data Meteorologi di Nusa Tenggara",
+    page_title="Analisis Data Meteorologi di Nusa Tenggara",
     page_icon="🌦️"
 )
 
@@ -38,7 +38,7 @@ class MultiApp:
                 unsafe_allow_html=True
             )
             
-            st.markdown("<h2 class='sidebar-title'>🌦️ Prediksi Cuaca</h2>", unsafe_allow_html=True)
+            st.markdown("<h2 class='sidebar-title'>🌦️ Analisis Data Cuaca</h2>", unsafe_allow_html=True)
             st.markdown("<hr>", unsafe_allow_html=True)
             
             app = option_menu(
@@ -57,9 +57,9 @@ class MultiApp:
                 st.markdown(
                     """
                     <div style="background-color: #333; padding: 15px; border-radius: 8px; border: 1px solid #444;">
-                        <h2 style="text-align: center; color: #fff; font-size: 24px;">🌤️ Selamat Datang di Halaman Prediksi Cuaca</h2>
+                        <h2 style="text-align: center; color: #fff; font-size: 24px;">🌤️ Selamat Datang di Halaman Analisis Data Cuaca</h2>
                         <p style="text-align: center; font-size: 16px; color: #ddd;">
-                            Aplikasi ini memberikan wawasan mengenai tren dan prediksi data meteorologi di Nusa Tenggara. Temukan data historis, tren, dan prediksi cuaca yang relevan untuk Anda.
+                            Aplikasi ini memberikan wawasan mengenai tren dan analisis mengenai data meteorologi di Nusa Tenggara. Temukan data historis, tren, dan prediksi cuaca yang relevan untuk Anda.
                         </p>
                     </div>
                     """,

@@ -4,7 +4,6 @@ from PIL import Image
 
 def app():
     st.title("🌤️ Tinjauan Tren Cuaca di Nusa Tenggara")
-    # st.subheader("Selamat datang di Aplikasi Prediksi Cuaca")
     
     # Set the directory for images
     image_directory = os.path.join(os.getcwd(), 'trendpage')
@@ -20,9 +19,12 @@ def app():
         for i, image_file in enumerate(images):
             image_path = os.path.join(image_directory, image_file)
             img = Image.open(image_path)
+            
+            # Remove "_trend.png" or similar suffix from the caption
+            caption = image_file.replace('_trend.png', '').replace('_trend.jpg', '').replace('_trend.jpeg', '').replace('_trend.gif', '')
 
             # Display images in the appropriate column
-            cols[i % 2].image(img, caption=image_file, use_column_width=True)
+            cols[i % 2].image(img, caption=caption, use_column_width=True)
     else:
         st.warning("Folder 'trendpage' tidak ditemukan. Silakan tambahkan gambar di dalam folder ini.")
 

@@ -1,5 +1,3 @@
-# prediction.py
-
 import streamlit as st
 
 def app():
@@ -14,59 +12,58 @@ def app():
     </style>
     """, unsafe_allow_html=True)
     
-    st.markdown('<h1 class="title">🌤️ Aplikasi Prediksi Cuaca di Nusa Tenggara</h1>', unsafe_allow_html=True)
-    st.subheader("Selamat datang di Aplikasi Prediksi Cuaca")
+    st.markdown('<h1 class="title">🌍 Analisis Data Cuaca Nusa Tenggara</h1>', unsafe_allow_html=True)
+    st.subheader("Selamat Datang di Aplikasi Analisis Data Cuaca")
 
     # Penjelasan Singkat
     st.markdown("""
-    Aplikasi ini bertujuan untuk membantu masyarakat dan peneliti dalam memahami pola dan tren perubahan cuaca di berbagai kota di Nusa Tenggara. 
-    Memanfaatkan metode **Support Vector Regression (SVR)** dan **Long Short-Term Memory (LSTM)**, aplikasi ini menawarkan proyeksi kondisi meteorologi berdasarkan analisis data cuaca historis selama 43 tahun. 
+    Aplikasi ini dirancang untuk menganalisis data cuaca historis di wilayah Nusa Tenggara. 
+    Dengan menggabungkan teknik analisis data modern dan model prediktif, aplikasi ini membantu memahami tren cuaca selama lebih dari empat dekade (1980–2023).
     """)
-    
-    # Manfaat dan Tujuan Aplikasi
-    st.subheader("1. Tujuan dan Manfaat Aplikasi")
+
+    # Tujuan dan Manfaat
+    st.subheader("1. Tujuan dan Manfaat")
     st.markdown("""
-    Aplikasi ini memiliki beberapa tujuan utama:
-    - **Memprediksi dan Mengantisipasi Cuaca Ekstrem**: Dengan memberikan informasi prediksi, aplikasi ini diharapkan membantu masyarakat dalam merencanakan aktivitas dan persiapan menghadapi potensi cuaca ekstrem.
-    - **Pendukung Riset dan Kebijakan Iklim**: Data historis dan prediksi yang dihasilkan dapat digunakan sebagai dasar ilmiah dalam penelitian perubahan iklim dan membantu pembuat kebijakan untuk merancang langkah-langkah mitigasi dan adaptasi di daerah Nusa Tenggara.
+    Aplikasi ini bertujuan untuk:
+    - **Memahami Tren Cuaca Jangka Panjang**: Menyediakan analisis data historis untuk mengenali pola cuaca di Nusa Tenggara.
+    - **Menyediakan Wawasan untuk Keputusan Strategis**: Hasil analisis dapat dimanfaatkan oleh peneliti, pembuat kebijakan, dan masyarakat umum untuk berbagai kebutuhan, seperti penelitian perubahan iklim atau mitigasi bencana.
     """)
 
     # Fitur Utama
     st.subheader("2. Fitur Utama")
     st.markdown("""
-    - **Prediksi Cuaca Berdasarkan Parameter Meteorologi**: Menggunakan SVR dan LSTM untuk memberikan prediksi yang akurat berdasarkan parameter seperti temperatur, kelembapan, curah hujan, dan kecepatan angin.
-    - **Perbandingan Metode Prediksi**: Menyediakan perbandingan antara SVR dan LSTM untuk memberikan wawasan lebih dalam mengenai akurasi prediksi.
-    - **Visualisasi Data**: Menampilkan hasil prediksi dalam grafik untuk kemudahan interpretasi dan analisis.
+    - **Analisis Data Cuaca Historis**: Memberikan wawasan berbasis data untuk parameter cuaca seperti temperatur, curah hujan, dan kelembapan.
+    - **Prediksi Cuaca Jangka Pendek**: Menggunakan metode seperti Support Vector Regression (SVR) dan Long Short-Term Memory (LSTM) untuk mengestimasi nilai parameter tertentu.
+    - **Visualisasi Interaktif**: Grafik dan tabel untuk mendukung interpretasi hasil analisis dengan lebih mudah.
     """)
 
     # Data Cuaca yang Digunakan
     st.subheader("3. Dataset yang Digunakan")
     st.markdown("""
-    Dataset mencakup data cuaca historis dari tahun 1980 hingga 2023, yang terdiri dari:
-    - Temperatur minimum, maksimum, dan rata-rata
+    Dataset mencakup data cuaca historis dari tahun 1980 hingga 2023, meliputi:
+    - Temperatur (minimum, maksimum, dan rata-rata)
     - Kelembapan rata-rata
     - Curah hujan
-    - Lamanya penyinaran matahari
-    - Kecepatan angin maksimum
-    - Arah Angin Saat Kecepatan Maksimum 
-    - Kecepatan Angin Rata-rata
+    - Durasi penyinaran matahari
+    - Kecepatan angin (maksimum dan rata-rata)
+    - Arah angin saat kecepatan maksimum
     """)
 
     # Teknologi yang Digunakan
     st.subheader("4. Teknologi yang Digunakan")
     st.markdown("""
-    - **Support Vector Regression (SVR)**: Model regresi yang efektif untuk memberikan prediksi dengan presisi tinggi pada data kompleks. SVR bekerja dengan menemukan hyperplane terbaik yang memisahkan data dalam ruang fitur, sehingga cocok untuk memodelkan hubungan dalam dataset cuaca.
-    - **Long Short-Term Memory (LSTM)**: Model jaringan saraf tiruan yang dirancang untuk memproses data sekuensial, khususnya data waktu, seperti tren cuaca. LSTM unggul dalam proyeksi jangka panjang karena kemampuannya mempertahankan pola dari data historis.
-    - **Streamlit**: Framework yang digunakan untuk membangun antarmuka web aplikasi ini. Streamlit memungkinkan aplikasi menjadi lebih mudah diakses, interaktif, dan intuitif bagi pengguna.
+    - **Support Vector Regression (SVR)**: Digunakan untuk memodelkan hubungan linear maupun non-linear antara variabel cuaca, memberikan hasil prediksi yang akurat.
+    - **Long Short-Term Memory (LSTM)**: Model berbasis jaringan saraf untuk data sekuensial, seperti tren cuaca historis.
+    - **Streamlit**: Framework untuk membangun antarmuka aplikasi yang interaktif dan ramah pengguna.
     """)
 
     # Pengguna Utama
-    st.subheader("5. Siapa yang akan menggunakan aplikasi ini?")
+    st.subheader("5. Siapa yang Akan Menggunakan Aplikasi Ini?")
     st.markdown("""
     Aplikasi ini dirancang untuk:
-    - **Masyarakat umum** di Nusa Tenggara yang membutuhkan informasi cuaca untuk aktivitas sehari-hari.
-    - **Peneliti dan Akademisi** yang memerlukan data prediksi cuaca sebagai bagian dari studi perubahan iklim atau riset lingkungan.
-    - **Pembuat kebijakan dan pihak terkait** yang memerlukan data cuaca dalam menyusun strategi mitigasi dan adaptasi terhadap perubahan iklim.
+    - **Peneliti dan Akademisi**: Untuk studi perubahan iklim, tren cuaca, atau penelitian lingkungan lainnya.
+    - **Pemerintah dan Pembuat Kebijakan**: Untuk perencanaan strategis terkait mitigasi risiko bencana atau pengelolaan sumber daya alam.
+    - **Masyarakat Umum**: Untuk mendapatkan wawasan tentang pola cuaca di wilayah mereka.
     """)
     
     # Footer
@@ -74,7 +71,7 @@ def app():
     """
     <style>
     body {
-        background-color: #121212;  /* Warna latar belakang gelap */
+        background-color: #121212;  /* Latar belakang gelap */
         color: #ffffff;  /* Warna teks putih */
     }
 
@@ -83,17 +80,17 @@ def app():
         left: 0;
         bottom: 0;
         width: 100%;
-        background-color: rgba(18, 18, 18, 0.9);  /* Warna latar belakang footer dengan transparansi */
+        background-color: rgba(18, 18, 18, 0.9);  /* Transparansi */
         text-align: center;
         padding: 10px;
         font-size: 12px;
-        color: #ffffff;  /* Warna teks footer putih */
+        color: #ffffff;  /* Warna teks putih */
     }
 
     .custom-background {
-        background-color: #1e1e1e;  /* Warna latar belakang untuk elemen tertentu */
-        border-radius: 5px;  /* Sudut melengkung */
-        padding: 10px;  /* Padding */
+        background-color: #1e1e1e;  /* Latar belakang elemen */
+        border-radius: 5px;
+        padding: 10px;
         box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2);  /* Bayangan */
     }
     </style>
@@ -101,5 +98,4 @@ def app():
     unsafe_allow_html=True
     )
 
-    # Footer
-    st.markdown("<div class='footer'>© 2024 Weather Prediction. All rights reserved.</div>", unsafe_allow_html=True)
+    st.markdown("<div class='footer'>© 2024 Nusa Tenggara Weather Analysis. All rights reserved.</div>", unsafe_allow_html=True)
