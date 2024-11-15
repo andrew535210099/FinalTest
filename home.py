@@ -47,7 +47,9 @@ def app():
     - Kelembapan rata-rata
     - Curah hujan
     - Lamanya penyinaran matahari
-    - Kecepatan angin maksimum, rata-rata, dan arah angin
+    - Kecepatan angin maksimum
+    - Arah Angin Saat Kecepatan Maksimum 
+    - Kecepatan Angin Rata-rata
     """)
 
     # Teknologi yang Digunakan
