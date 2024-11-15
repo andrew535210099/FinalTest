@@ -53,9 +53,9 @@ def app():
     # Teknologi yang Digunakan
     st.subheader("4. Teknologi yang Digunakan")
     st.markdown("""
-    - **Support Vector Regression (SVR)**: Model regresi yang mampu memberikan prediksi presisi tinggi untuk data yang kompleks.
-    - **Long Short-Term Memory (LSTM)**: Model jaringan saraf tiruan yang dioptimalkan untuk data sekuensial, cocok untuk proyeksi tren cuaca jangka panjang.
-    - **Streamlit**: Framework yang digunakan untuk membangun antarmuka web aplikasi ini, membuatnya mudah diakses dan interaktif.
+    - **Support Vector Regression (SVR)**: Model regresi yang efektif untuk memberikan prediksi dengan presisi tinggi pada data kompleks. SVR bekerja dengan menemukan hyperplane terbaik yang memisahkan data dalam ruang fitur, sehingga cocok untuk memodelkan hubungan dalam dataset cuaca.
+    - **Long Short-Term Memory (LSTM)**: Model jaringan saraf tiruan yang dirancang untuk memproses data sekuensial, khususnya data waktu, seperti tren cuaca. LSTM unggul dalam proyeksi jangka panjang karena kemampuannya mempertahankan pola dari data historis.
+    - **Streamlit**: Framework yang digunakan untuk membangun antarmuka web aplikasi ini. Streamlit memungkinkan aplikasi menjadi lebih mudah diakses, interaktif, dan intuitif bagi pengguna.
     """)
 
     # Pengguna Utama
