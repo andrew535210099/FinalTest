@@ -57,7 +57,7 @@ class MultiApp:
                 st.markdown(
                     """
                     <div style="background-color: #333; padding: 15px; border-radius: 8px; border: 1px solid #444;">
-                        <h2 style="text-align: center; color: #fff; font-size: 24px;">🌤️ Selamat Datang di Halaman Analisis Data Cuaca</h2>
+                        <h2 style="text-align: center; color: #fff; font-size: 24px;">❄️ Selamat Datang di Halaman Analisis Data Cuaca</h2>
                         <p style="text-align: center; font-size: 16px; color: #ddd;">
                             Aplikasi ini memberikan wawasan mengenai tren dan analisis mengenai data meteorologi di Nusa Tenggara. Temukan data historis, tren, dan prediksi cuaca yang relevan untuk Anda.
                         </p>
@@ -69,7 +69,7 @@ class MultiApp:
                 st.markdown(
                     """
                     <div style="background-color: #333; padding: 15px; border-radius: 8px; border: 1px solid #444;">
-                        <h2 style="text-align: center; color: #fff; font-size: 24px;">🌤️ Buat Prediksi Cuaca</h2>
+                        <h2 style="text-align: center; color: #fff; font-size: 24px;">🔮 Buat Prediksi Cuaca</h2>
                         <p style="text-align: center; font-size: 16px; color: #ddd;">
                             Gunakan model canggih kami untuk meramalkan kondisi cuaca di Nusa Tenggara. Masukkan parameter yang diperlukan untuk mendapatkan prediksi yang akurat dan terkini.
                         </p>
@@ -81,7 +81,7 @@ class MultiApp:
                 st.markdown(
                     """
                     <div style="background-color: #333; padding: 15px; border-radius: 8px; border: 1px solid #444;">
-                        <h2 style="text-align: center; color: #fff; font-size: 24px;">📈 Tinjauan Tren Cuaca</h2>
+                        <h2 style="text-align: center; color: #fff; font-size: 24px;">🌊 Tinjauan Tren Cuaca</h2>
                         <p style="text-align: center; font-size: 16px; color: #ddd;">
                             Jelajahi pola dan tren cuaca historis di Nusa Tenggara. Visualisasi ini membantu Anda memahami perubahan iklim yang sedang terjadi dengan melihat data cuaca masa lalu.
                         </p>
@@ -93,7 +93,7 @@ class MultiApp:
                 st.markdown(
                     """
                     <div style="background-color: #333; padding: 15px; border-radius: 8px; border: 1px solid #444;">
-                        <h2 style="text-align: center; color: #fff; font-size: 24px;">📝 Evaluasi Model</h2>
+                        <h2 style="text-align: center; color: #fff; font-size: 24px;">📊 Evaluasi Model</h2>
                         <p style="text-align: center; font-size: 16px; color: #ddd;">
                             Lihat hasil evaluasi akurasi dan performa model prediksi cuaca kami. Pelajari bagaimana model kami membandingkan hasil prediksi dengan data aktual.
                         </p>

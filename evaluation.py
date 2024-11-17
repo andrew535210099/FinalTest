@@ -4,9 +4,10 @@ import os
 import pandas as pd
 import plotly.graph_objects as go
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+import numpy as np
 
 def app():
-    st.title("🌤️ Evaluasi Prediksi Cuaca")
+    st.title("📊 Evaluasi Prediksi Cuaca")
     st.write("Selamat datang di halaman evaluasi prediksi cuaca! Di sini, Anda bisa melihat performa model prediksi cuaca menggunakan metode SVR dan LSTM. Pilih kota dan model untuk memulai.")
 
     # Tentukan direktori model
@@ -24,12 +25,13 @@ def app():
 
     with st.container():
         if st.button("Tampilkan Evaluasi"):
-            historical_data, filenames = get_metrix_evaluation(selected_city, selected_model)
-            # Tampilkan plot jika data berhasil dimuat
-            if historical_data:
-                plot_all_predictions(historical_data, filenames)
-            else:
-                st.warning("Tidak ada data tersedia untuk ditampilkan. Pastikan Anda telah memilih kota dan model yang benar.")
+            with st.spinner("Mengambil data historis..."):
+                historical_data, filenames = get_metrix_evaluation(selected_city, selected_model)
+                # Tampilkan plot jika data berhasil dimuat
+                if historical_data:
+                    plot_all_predictions(historical_data, filenames)
+                else:
+                    st.warning("Tidak ada data tersedia untuk ditampilkan. Pastikan Anda telah memilih kota dan model yang benar.")
 
     # Gaya footer dan tampilan tambahan
     st.markdown(
@@ -130,16 +132,22 @@ def plot_predictions(df, filename):
     )
 
     st.plotly_chart(fig, use_container_width=True)
+    
+    y_actual = df[actual_column]
+    y_predicted = df[predicted_column]
+    mae = mean_absolute_error(y_actual, y_predicted)
+    mse = mean_squared_error(y_actual, y_predicted)
+    rmse = mse ** 0.5
+    mape = (abs((y_actual - y_predicted) / y_actual).mean()) * 100
+    cv = (np.std(y_actual) / np.mean(y_actual)) * 100
+    # cv = (rmse / y_actual.mean()) * 100
+    r2 = r2_score(y_actual, y_predicted)
 
     # Calculate evaluation metrics
-    mae = mean_absolute_error(df[actual_column], df[predicted_column])
-    mse = mean_squared_error(df[actual_column], df[predicted_column])
-    rmse = mse ** 0.5
-    r2 = r2_score(df[actual_column], df[predicted_column])
-
-    # Display metrics in Streamlit
     st.markdown(f"### Evaluasi untuk {display_name}")
     st.write(f"**Mean Absolute Error (MAE):** {mae:.2f}")
+    st.write(f"**Mean Absolute Percentage Error (MAPE):** {mape:.2f}%")
     st.write(f"**Mean Squared Error (MSE):** {mse:.2f}")
     st.write(f"**Root Mean Squared Error (RMSE):** {rmse:.2f}")
+    st.write(f"**Coefficient of Variation (CV):** {cv:.2f}%")
     st.write(f"**R² Score:** {r2:.2f}")

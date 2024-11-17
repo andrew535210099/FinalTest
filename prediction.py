@@ -68,7 +68,7 @@ def plot_predictions(data_historis, data_terpilih):
 
 
 def app():
-    st.title("🌤️ Prediksi Cuaca")
+    st.title("🔮 Prediksi Cuaca")
     st.write("Aplikasi ini menampilkan prediksi cuaca menggunakan teknik SVR dan LSTM. Anda dapat membandingkan prediksi untuk berbagai kota dan rentang tanggal yang dipilih.")
     
     # Direktori Model
@@ -94,10 +94,14 @@ def app():
         col1, col2 = st.columns(2)
         
         # Tanggal mulai default
-        default_start_date = datetime(2024, 1, 1)
+        default_start_date = datetime(2015, 4, 14)
+        
+        max_start_date = datetime(2033, 12, 28)
         
         with col1:
-            start_date = st.date_input("Pilih Tanggal Mulai", value=default_start_date, min_value=default_start_date)
+            # start_date = st.date_input("Pilih Tanggal Mulai", value=default_start_date, min_value=default_start_date)
+            start_date = st.date_input("Pilih Tanggal Mulai",  value=default_start_date, min_value=default_start_date, max_value=max_start_date
+    )
 
         # Tanggal akhir maksimal 30 hari setelah tanggal mulai
         max_end_date = start_date + relativedelta(days=30)

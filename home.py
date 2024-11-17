@@ -12,7 +12,7 @@ def app():
     </style>
     """, unsafe_allow_html=True)
     
-    st.markdown('<h1 class="title">🌍 Analisis Data Cuaca Nusa Tenggara</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="title">❄️ Analisis Data Cuaca Nusa Tenggara</h1>', unsafe_allow_html=True)
     st.subheader("Selamat Datang di Aplikasi Analisis Data Cuaca")
 
     # Penjelasan Singkat
@@ -22,12 +22,22 @@ def app():
     """)
 
     # Tujuan dan Manfaat
+    # st.subheader("1. Tujuan dan Manfaat")
+    # st.markdown("""
+    # Aplikasi ini bertujuan untuk:
+    # - **Memahami Tren Cuaca Jangka Panjang**: Menyediakan analisis data historis untuk mengenali pola cuaca di Nusa Tenggara.
+    # - **Menyediakan Wawasan untuk
+    # Keputusan Strategis**: Hasil analisis dapat dimanfaatkan oleh peneliti, pembuat kebijakan, dan masyarakat umum untuk berbagai kebutuhan, seperti penelitian perubahan iklim atau mitigasi bencana.
+    # """)
+    
     st.subheader("1. Tujuan dan Manfaat")
     st.markdown("""
-    Aplikasi ini bertujuan untuk:
-    - **Memahami Tren Cuaca Jangka Panjang**: Menyediakan analisis data historis untuk mengenali pola cuaca di Nusa Tenggara.
-    - **Menyediakan Wawasan untuk Keputusan Strategis**: Hasil analisis dapat dimanfaatkan oleh peneliti, pembuat kebijakan, dan masyarakat umum untuk berbagai kebutuhan, seperti penelitian perubahan iklim atau mitigasi bencana.
+    Aplikasi ini memiliki tujuan utama untuk:
+    - **Menilai Kinerja Model Prediksi Cuaca di Berbagai Kota**: Menguji sejauh mana akurasi model dalam memprediksi cuaca berdasarkan data historis di masing-masing kota di Nusa Tenggara, guna menentukan seberapa efektif model ini dalam konteks lokal.
+    - **Menyediakan Informasi yang Mendalam untuk Pengambilan Keputusan Strategis**: Hasil evaluasi model dapat digunakan oleh peneliti, pembuat kebijakan, dan masyarakat umum untuk merumuskan kebijakan berbasis cuaca, memahami dampak perubahan iklim, serta merencanakan langkah-langkah mitigasi bencana yang lebih tepat.
+    - **Memfasilitasi Perbandingan Kinerja Model antar Kota**: Menyediakan analisis perbandingan yang berguna untuk menilai kelebihan dan kekurangan model prediksi cuaca di berbagai wilayah, sehingga memungkinkan peningkatan akurasi prediksi untuk setiap kota.
     """)
+
 
     # Fitur Utama
     st.subheader("2. Fitur Utama")

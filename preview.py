@@ -3,7 +3,7 @@ import streamlit as st
 from PIL import Image
 
 def app():
-    st.title("🌤️ Tinjauan Tren Cuaca di Nusa Tenggara")
+    st.title("🌊 Tinjauan Tren Cuaca di Nusa Tenggara")
     
     # Set the directory for images
     image_directory = os.path.join(os.getcwd(), 'trendpage')
